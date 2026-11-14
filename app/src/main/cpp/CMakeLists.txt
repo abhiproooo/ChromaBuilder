@@ -14,4 +14,4 @@ add_library(native-lib SHARED
 )
 
 find_library(log-lib log)
-target_link_libraries(native-lib ${log-lib})
+target_link_libraries(native-lib ${log-lib} android)

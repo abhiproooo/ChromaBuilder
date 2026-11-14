@@ -125,6 +125,19 @@ jobs:
           echo "Expected NDK ${NDK_VERSION} directory:"
           ls -la "${ANDROID_HOME}/ndk/${NDK_VERSION}" || true
 
+      - name: Locate NDK clang++
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -z "${ANDROID_HOME:-}" ]; then
+            echo "ANDROID_HOME is not set" >&2
+            exit 1
+          fi
+
+          echo "Searching ${ANDROID_HOME}/ndk for clang++:"
+          find "${ANDROID_HOME}/ndk" -name "clang++" -print
+
       - name: Ninja symlink workaround (AGP bug)
         shell: bash
         run: |
