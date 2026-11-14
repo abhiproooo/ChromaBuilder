@@ -8,6 +8,10 @@ on:
   pull_request:
   workflow_dispatch:
 
+env:
+  CMAKE_VERSION: "3.22.1"
+  NDK_VERSION: "27.0.12077973"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -31,8 +35,8 @@ jobs:
           packages: >-
             platforms;android-36
             build-tools;36.0.0
-            ndk;27.0.12077973
-            cmake;3.22.1
+            ndk;${{ env.NDK_VERSION }}
+            cmake;${{ env.CMAKE_VERSION }}
 
       - name: Install CMake and Ninja
         shell: bash
@@ -40,33 +44,66 @@ jobs:
           set -euo pipefail
 
           SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
-          SDKM="$(command -v sdkmanager || true)"
-          if [ -z "${SDKM}" ] && [ -x "${SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" ]; then
-            SDKM="${SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager"
+
+          SDKM="${SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "${SDKM}" ]; then
+            SDKM="$(command -v sdkmanager || true)"
           fi
           if [ -z "${SDKM}" ]; then
             echo "sdkmanager not found" >&2
             exit 1
           fi
 
-          yes | "${SDKM}" --licenses >/dev/null || true
-          "${SDKM}" --install "cmake;3.22.1"
+          yes | "${SDKM}" --licenses >/dev/null 2>&1 || true
 
-          # Ninja is normally bundled with the Android SDK CMake package. Install a
-          # system copy as a fallback and make sure it is available where AGP looks.
-          if [ ! -x "${SDK_ROOT}/cmake/3.22.1/bin/ninja" ]; then
-            if ! command -v ninja >/dev/null 2>&1; then
-              sudo apt-get update
-              sudo apt-get install -y ninja-build
-            fi
-            sudo ln -sf "$(command -v ninja)" "${SDK_ROOT}/cmake/3.22.1/bin/ninja"
+          # CMake must come from the Android SDK; AGP requires this exact version.
+          "${SDKM}" --install "cmake;${CMAKE_VERSION}"
+
+          # Ninja comes from the Ubuntu packages as requested.
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
+
+          CMAKE_BIN="${SDK_ROOT}/cmake/${CMAKE_VERSION}/bin"
+          NINJA_BIN="$(dirname "$(command -v ninja)")"
+
+          if [ ! -x "${CMAKE_BIN}/cmake" ]; then
+            echo "Android SDK CMake ${CMAKE_VERSION} not found at ${CMAKE_BIN}" >&2
+            exit 1
+          fi
+          if [ ! -x "${NINJA_BIN}/ninja" ]; then
+            echo "Ninja not found at ${NINJA_BIN}" >&2
+            exit 1
           fi
 
-          echo "${SDK_ROOT}/cmake/3.22.1/bin" >> "${GITHUB_PATH}"
-          export PATH="${SDK_ROOT}/cmake/3.22.1/bin:${PATH}"
+          # Make both locations available to all later steps (Gradle build).
+          # GITHUB_PATH alone does not guarantee ordering, so also set PATH
+          # explicitly with the SDK CMake directory first.
+          echo "${CMAKE_BIN}" >> "${GITHUB_PATH}"
+          echo "${NINJA_BIN}" >> "${GITHUB_PATH}"
+          echo "PATH=${CMAKE_BIN}:${NINJA_BIN}:${PATH}" >> "${GITHUB_ENV}"
 
+      - name: Verify CMake and Ninja
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "cmake path: $(command -v cmake)"
           cmake --version
+          echo "ninja path: $(command -v ninja)"
           ninja --version
+
+          GRADLE_NDK_VERSION="$(sed -nE 's/.*ndkVersion[[:space:]]*"([^"]+)".*/\1/p' app/build.gradle | head -n1)"
+          echo "app/build.gradle ndkVersion: ${GRADLE_NDK_VERSION}"
+          if [ "${GRADLE_NDK_VERSION}" != "${NDK_VERSION}" ]; then
+            echo "ndkVersion mismatch: app/build.gradle has '${GRADLE_NDK_VERSION}', workflow installs '${NDK_VERSION}'" >&2
+            exit 1
+          fi
+
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          if [ ! -f "${SDK_ROOT}/ndk/${NDK_VERSION}/source.properties" ]; then
+            echo "Android NDK ${NDK_VERSION} is not installed at ${SDK_ROOT}/ndk/${NDK_VERSION}" >&2
+            exit 1
+          fi
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
