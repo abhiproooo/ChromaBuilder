@@ -24,16 +24,15 @@ jobs:
           java-version: "17"
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install NDK, CMake, and SDK packages
-        run: |
-          yes | sdkmanager --licenses > /dev/null
-          sdkmanager --install \
-            "platforms;android-36" \
-            "build-tools;36.0.0" \
-            "ndk;27.0.12077973" \
-            "cmake;3.22.1"
+        uses: android-actions/setup-android@v4
+        with:
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: true
+          packages: >-
+            platforms;android-36
+            build-tools;36.0.0
+            ndk;27.0.12077973
+            cmake;3.22.1
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
