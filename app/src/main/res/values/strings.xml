@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Chroma Toons Rebuilt</string>
+    <string name="brand_title">CHROMA TOONS</string>
+    <string name="brand_subtitle">Rebuilt native base for Android</string>
+    <string name="rebuild_title">Rebuild status</string>
+    <string name="rebuild_notice">The original app is a Unity IL2CPP project. This shell provides a clean Android surface, navigation, and a local premium state.</string>
+    <string name="premium_body">Premium is unlocked locally. Billing, RevenueCat, and subscription checks are bypassed in this rebuild.</string>
+    <string name="premium_unlocked">PREMIUM UNLOCKED</string>
+    <string name="premium_locked">PREMIUM LOCKED</string>
+    <string name="feature_unlocked">PREMIUM GATE: BYPASSED LOCALLY</string>
+    <string name="feature_locked">PREMIUM GATE: ACTIVE</string>
+    <string name="open_feature">Open</string>
+    <string name="back">Back</string>
+    <string name="feature_default_body">This feature surface is ready for the next implementation pass.</string>
+    <string name="footer">Native rebuild scaffold &#8226; no external billing</string>
+
+    <string name="eyebrow_rig">CHARACTER</string>
+    <string name="eyebrow_animation">ANIMATION</string>
+    <string name="eyebrow_media">MEDIA</string>
+    <string name="eyebrow_cloud">CLOUD</string>
+    <string name="eyebrow_premium">ACCOUNT</string>
+
+    <string name="feature_rig_title">Rig Editor</string>
+    <string name="feature_rig_body">Bone hierarchy, part transforms, mouth and palm choices, and JSON animation clips. The original editor is in ChromaToons.CharacterAnimation.ChromaRigEditor.</string>
+    <string name="feature_animation_title">Custom Animations</string>
+    <string name="feature_animation_body">The app imports custom JSON rig clips. Bone paths, rig type, FPS, and frame keys must match the target RigDefinition.</string>
+    <string name="feature_media_title">Media Editor</string>
+    <string name="feature_media_body">Timeline, export, and lipsync surfaces from the original media tools are reserved for the next rebuild pass.</string>
+    <string name="feature_cloud_title">Cloud Characters</string>
+    <string name="feature_cloud_body">Cloud JSON catalogs and ZIP character downloads are represented here as a future integration point.</string>
+    <string name="feature_premium_title">Premium Details</string>
+    <string name="feature_premium_body">Original gate: RevenueCatManager (IL2CPP type 5220), BuyProSubscription, RestorePurchases, and encoded entitlement fields. This rebuild uses a local PremiumManager that always returns unlocked.</string>
+</resources>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="28dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.08"
+            android:text="@string/brand_title"
+            android:textColor="@color/text_primary"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/brand_subtitle"
+            android:textColor="@color/text_secondary"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/premium_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/pill_success"
+            android:letterSpacing="0.12"
+            android:paddingLeft="14dp"
+            android:paddingTop="8dp"
+            android:paddingRight="14dp"
+            android:paddingBottom="8dp"
+            android:text="@string/premium_unlocked"
+            android:textColor="@color/success"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <LinearLayout style="@style/FeatureCard">
+
+            <TextView
+                style="@style/FeatureEyebrow"
+                android:text="@string/eyebrow_premium" />
+
+            <TextView
+                style="@style/FeatureTitle"
+                android:text="@string/rebuild_title" />
+
+            <TextView
+                style="@style/FeatureBody"
+                android:text="@string/rebuild_notice" />
+
+            <TextView
+                style="@style/FeatureBody"
+                android:text="@string/premium_body" />
+
+            <Button
+                android:id="@+id/open_premium"
+                style="@style/SecondaryButton"
+                android:layout_width="match_parent"
+                android:text="@string/open_feature" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/FeatureCard">
+
+            <TextView
+                style="@style/FeatureEyebrow"
+                android:text="@string/eyebrow_rig" />
+
+            <TextView
+                style="@style/FeatureTitle"
+                android:text="@string/feature_rig_title" />
+
+            <TextView
+                style="@style/FeatureBody"
+                android:text="@string/feature_rig_body" />
+
+            <Button
+                android:id="@+id/open_rig_editor"
+                style="@style/PrimaryButton"
+                android:text="@string/open_feature" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/FeatureCard">
+
+            <TextView
+                style="@style/FeatureEyebrow"
+                android:text="@string/eyebrow_animation" />
+
+            <TextView
+                style="@style/FeatureTitle"
+                android:text="@string/feature_animation_title" />
+
+            <TextView
+                style="@style/FeatureBody"
+                android:text="@string/feature_animation_body" />
+
+            <Button
+                android:id="@+id/open_animation_library"
+                style="@style/PrimaryButton"
+                android:text="@string/open_feature" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/FeatureCard">
+
+            <TextView
+                style="@style/FeatureEyebrow"
+                android:text="@string/eyebrow_media" />
+
+            <TextView
+                style="@style/FeatureTitle"
+                android:text="@string/feature_media_title" />
+
+            <TextView
+                style="@style/FeatureBody"
+                android:text="@string/feature_media_body" />
+
+            <Button
+                android:id="@+id/open_media_editor"
+                style="@style/PrimaryButton"
+                android:text="@string/open_feature" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/FeatureCard">
+
+            <TextView
+                style="@style/FeatureEyebrow"
+                android:text="@string/eyebrow_cloud" />
+
+            <TextView
+                style="@style/FeatureTitle"
+                android:text="@string/feature_cloud_title" />
+
+            <TextView
+                style="@style/FeatureBody"
+                android:text="@string/feature_cloud_body" />
+
+            <Button
+                android:id="@+id/open_cloud_characters"
+                style="@style/PrimaryButton"
+                android:text="@string/open_feature" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="@string/footer"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+</ScrollView>

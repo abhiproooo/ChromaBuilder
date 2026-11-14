@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="28dp">
+
+        <Button
+            android:id="@+id/feature_back"
+            style="@style/SecondaryButton"
+            android:text="@string/back" />
+
+        <TextView
+            android:id="@+id/feature_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/pill_success"
+            android:letterSpacing="0.12"
+            android:paddingLeft="14dp"
+            android:paddingTop="8dp"
+            android:paddingRight="14dp"
+            android:paddingBottom="8dp"
+            android:text="@string/feature_unlocked"
+            android:textColor="@color/success"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/feature_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/app_name"
+            android:textColor="@color/text_primary"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/feature_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/feature_default_body"
+            android:textColor="@color/text_secondary"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            style="@style/FeatureCard"
+            android:layout_marginTop="24dp">
+
+            <TextView
+                style="@style/FeatureEyebrow"
+                android:text="@string/eyebrow_premium" />
+
+            <TextView
+                style="@style/FeatureTitle"
+                android:text="@string/rebuild_title" />
+
+            <TextView
+                style="@style/FeatureBody"
+                android:text="@string/rebuild_notice" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
