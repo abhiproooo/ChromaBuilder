@@ -34,6 +34,40 @@ jobs:
             ndk;27.0.12077973
             cmake;3.22.1
 
+      - name: Install CMake and Ninja
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          SDKM="$(command -v sdkmanager || true)"
+          if [ -z "${SDKM}" ] && [ -x "${SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" ]; then
+            SDKM="${SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager"
+          fi
+          if [ -z "${SDKM}" ]; then
+            echo "sdkmanager not found" >&2
+            exit 1
+          fi
+
+          yes | "${SDKM}" --licenses >/dev/null || true
+          "${SDKM}" --install "cmake;3.22.1"
+
+          # Ninja is normally bundled with the Android SDK CMake package. Install a
+          # system copy as a fallback and make sure it is available where AGP looks.
+          if [ ! -x "${SDK_ROOT}/cmake/3.22.1/bin/ninja" ]; then
+            if ! command -v ninja >/dev/null 2>&1; then
+              sudo apt-get update
+              sudo apt-get install -y ninja-build
+            fi
+            sudo ln -sf "$(command -v ninja)" "${SDK_ROOT}/cmake/3.22.1/bin/ninja"
+          fi
+
+          echo "${SDK_ROOT}/cmake/3.22.1/bin" >> "${GITHUB_PATH}"
+          export PATH="${SDK_ROOT}/cmake/3.22.1/bin:${PATH}"
+
+          cmake --version
+          ninja --version
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
